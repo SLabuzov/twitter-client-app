@@ -1,4 +1,5 @@
 import {
+    Box,
     Button,
     Center,
     Flex,
@@ -14,9 +15,9 @@ import {
 } from '@chakra-ui/react';
 import z from 'zod';
 import {zodResolver} from '@hookform/resolvers/zod';
-import {FieldValues, useForm} from 'react-hook-form';
+import {useForm} from 'react-hook-form';
 import appLogo from '../../assets/logo.svg';
-
+import {Credentials} from './models';
 
 const registerFormSchema = z
     .object({
@@ -24,19 +25,27 @@ const registerFormSchema = z
         password: z.string().min(8, "Пароль должен содержать минимум 8 символов"),
         confirmPassword: z.string().min(8, "Пароль должен содержать минимум 8 символов")
     })
-.refine(
-    (values) => {
-        return values.password === values.confirmPassword;
-    },
-    {
-        message: "Пароли не совпадают",
-        path: ["confirmPassword"],
-    }
-);
+    .refine(
+        (values) => {
+            return values.password === values.confirmPassword;
+        },
+        {
+            message: "Пароли не совпадают",
+            path: ["confirmPassword"],
+        }
+    );
 
 type RegisterFormData = z.infer<typeof registerFormSchema>;
 
-const RegisterForm = () => {
+interface RegisterFormProps {
+    isError: boolean;
+    isSuccess: boolean;
+    isLoading: boolean;
+    errorMessage?: string;
+    onFormSubmit: (credentials: Credentials) => void;
+}
+
+const RegisterForm = ({isError, isSuccess, isLoading, errorMessage, onFormSubmit}: RegisterFormProps) => {
 
     const {
         register,
@@ -46,19 +55,26 @@ const RegisterForm = () => {
         resolver: zodResolver(registerFormSchema)
     });
 
-    const handleFormSubmit = (credentials: FieldValues) => {
-        console.log('credentials', credentials);
-    }
-
     return (
         <Flex direction="row" flex="1" align="center" justify="center" backgroundColor="gray.100">
-            <form onSubmit={handleSubmit(handleFormSubmit)}>
+            <form onSubmit={handleSubmit(onFormSubmit)}>
                 <Center maxW="lg" w="lg" shadow="lg" backgroundColor="white" rounded='md'>
                     <Stack spacing="2" pt="16" pb="16">
                         <Center pb="8">
                             <VStack>
                                 <Image boxSize="64px" src={appLogo}/>
                                 <Heading fontSize="2xl">Зарегистрируйте свой аккаунт</Heading>
+                                {isSuccess &&
+                                    <Box backgroundColor={'green.200'} p='16px' borderRadius='8px'>
+                                        <Heading fontSize={'2xm'} color={'green.700'}>Аккаунт успешно
+                                            зарегистрирован</Heading>
+                                    </Box>
+                                }
+                                {isError &&
+                                    <Box backgroundColor={'red.200'} p='16px' borderRadius='8px'>
+                                        <Heading fontSize={'2xm'} color={'red.700'}>{errorMessage}</Heading>
+                                    </Box>
+                                }
                             </VStack>
                         </Center>
                         <FormControl isInvalid={!!errors.username}>
@@ -85,7 +101,7 @@ const RegisterForm = () => {
                             </FormErrorMessage>
                         </FormControl>
                         <Stack spacing="6" pt="4">
-                            <Button type="submit" colorScheme="twitter" variant="solid">
+                            <Button type="submit" colorScheme="twitter" variant="solid" isDisabled={isLoading}>
                                 Зарегистрировать аккаунт
                             </Button>
                             <Link color="twitter.500">
