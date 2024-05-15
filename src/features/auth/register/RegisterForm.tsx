@@ -16,8 +16,8 @@ import {
 import z from 'zod';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useForm} from 'react-hook-form';
-import appLogo from '../../assets/logo.svg';
-import {Credentials} from './models';
+import appLogo from '../../../assets/logo.svg';
+import {Credentials} from '../models';
 
 const registerFormSchema = z
     .object({
