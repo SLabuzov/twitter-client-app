@@ -1,9 +1,9 @@
-import RegisterForm from './features/register/RegisterForm';
+import RegisterPage from './features/register/RegisterPage';
 
 function App() {
 
     return (
-        <RegisterForm/>
+        <RegisterPage/>
     )
 }
 
