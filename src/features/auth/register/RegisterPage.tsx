@@ -1,5 +1,5 @@
 import RegisterForm from './RegisterForm';
-import {Credentials} from './models';
+import {Credentials} from '../models';
 import {useRegisterUserAccount} from './useRegisterUserAccount';
 
 const RegisterPage = () => {

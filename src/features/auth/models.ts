@@ -9,3 +9,7 @@ export interface AxiosErrorResponseData {
     title: string;
     status: number;
 }
+
+export interface AccessToken {
+    idToken: string;
+}
