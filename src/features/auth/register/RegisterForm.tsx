@@ -43,9 +43,10 @@ interface RegisterFormProps {
     isLoading: boolean;
     errorMessage?: string;
     onFormSubmit: (credentials: Credentials) => void;
+    onLinkClick: () => void;
 }
 
-const RegisterForm = ({isError, isSuccess, isLoading, errorMessage, onFormSubmit}: RegisterFormProps) => {
+const RegisterForm = ({isError, isSuccess, isLoading, errorMessage, onFormSubmit, onLinkClick}: RegisterFormProps) => {
 
     const {
         register,
@@ -104,7 +105,7 @@ const RegisterForm = ({isError, isSuccess, isLoading, errorMessage, onFormSubmit
                             <Button type="submit" colorScheme="twitter" variant="solid" isDisabled={isLoading}>
                                 Зарегистрировать аккаунт
                             </Button>
-                            <Link color="twitter.500">
+                            <Link color="twitter.500" onClick={onLinkClick}>
                                 Аккаунт уже зарегистрирован?
                             </Link>
                         </Stack>

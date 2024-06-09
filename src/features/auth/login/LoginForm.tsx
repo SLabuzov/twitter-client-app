@@ -31,9 +31,10 @@ interface LoginFormProps {
     isLoading: boolean;
     errorMessage?: string;
     onFormSubmit: (credentials: Credentials) => void;
+    onLinkClick: () => void;
 }
 
-const LoginForm = ({isError, isLoading, errorMessage, onFormSubmit}: LoginFormProps) => {
+const LoginForm = ({isError, isLoading, errorMessage, onFormSubmit, onLinkClick}: LoginFormProps) => {
 
     const {
         register,
@@ -78,7 +79,7 @@ const LoginForm = ({isError, isLoading, errorMessage, onFormSubmit}: LoginFormPr
                             <Button type="submit" colorScheme="twitter" variant="solid" isDisabled={isLoading}>
                                 Войти
                             </Button>
-                            <Link color="twitter.500">
+                            <Link color="twitter.500" onClick={onLinkClick}>
                                 Аккаунт еще не зарегистрирован
                             </Link>
                         </Stack>
