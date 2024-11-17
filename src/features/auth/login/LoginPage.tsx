@@ -2,6 +2,7 @@ import LoginForm from './LoginForm';
 import {useLogin} from './useLogin';
 import {Credentials} from '../models';
 import {useNavigate} from 'react-router-dom';
+import useTokenStore from '../../../store/tokenStore';
 
 const LoginPage = () => {
 
@@ -21,7 +22,7 @@ const LoginPage = () => {
     const handleLogin = (credentials: Credentials) => {
         mutate(credentials, {
             onSuccess: (accessToken) => {
-                console.log('accessToken', accessToken);
+                useTokenStore.getState().login(accessToken.idToken);
                 navigate('/');
             }
         });
